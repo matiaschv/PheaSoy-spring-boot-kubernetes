@@ -62,7 +62,6 @@ pipeline {
         		   env.DOCKER_EXEC = "${DOCKER}/bin/docker"
         		   env.TARGET = 'http://zero.webappsecurity.com'
         	
-        		    sh '${DOCKER_EXEC} rm -f zap2'
         		    sh "${DOCKER_EXEC} pull owasp/zap2docker-stable"
                     sh '${DOCKER_EXEC} run --add-host="localhost:192.168.0.9" --rm -e LC_ALL=C.UTF-8 -e LANG=C.UTF-8 --name zap2 -u zap -p 8093:8093 -d owasp/zap2docker-stable zap.sh -daemon -port 8093 -host 0.0.0.0 -config api.disablekey=true'
                     sh '${DOCKER_EXEC} run --user $(id -u):$(id -g) --add-host="localhost:192.168.0.9" -v /Users/matiaschamorro/Desktop/devsecops/tarea4/jenkins_home/tools:/zap/wrk/:rw --rm -i owasp/zap2docker-stable zap-baseline.py -t "http://zero.webappsecurity.com" -I -r zap_baseline_report.html -l PASS'	
